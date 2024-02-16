@@ -160,20 +160,20 @@ def generate(
             tic = time.perf_counter()
         tokens.append(token.item())
 
-        if verbose:
-            s = tokenizer.decode(tokens)
-            if formatter:
-                formatter(s[skip:], prob.item())
-                skip = len(s)
-            elif REPLACEMENT_CHAR not in s:
-                print(s[skip:], end="", flush=True)
-                skip = len(s)
+        # if verbose:
+        #     s = tokenizer.decode(tokens)
+        #     if formatter:
+        #         formatter(s[skip:], prob.item())
+        #         skip = len(s)
+        #     elif REPLACEMENT_CHAR not in s:
+        #         print(s[skip:], end="", flush=True)
+        #         skip = len(s)
 
     token_count = len(tokens)
     token_string = tokenizer.decode(tokens).replace(REPLACEMENT_CHAR, "")
 
     if verbose:
-        print(token_string[skip:], flush=True)
+        print(token_string, flush=True)
         gen_time = time.perf_counter() - tic
         print("=" * 10)
         if token_count == 0:
