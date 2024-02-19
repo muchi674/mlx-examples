@@ -155,7 +155,7 @@ def generate_step(
     while True:
         tic = time.perf_counter()
         logits, cache = model(y[None], cache=cache)
-        logits.eval()
+        mx.eval(logits)
         print(f"modeling took: {time.perf_counter() - tic} seconds")
         logits = logits[:, -1, :]
 
