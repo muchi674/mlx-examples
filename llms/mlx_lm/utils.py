@@ -153,14 +153,9 @@ def generate_step(
         repetition_context = repetition_context[-repetition_context_size:]
 
     while True:
-        tic = time.perf_counter()
         logits, cache = model(y[None], cache=cache)
-        mx.eval(logits)
-        mx.eval(cache)
-        print(f"modeling took: {time.perf_counter() - tic} seconds")
         logits = logits[:, -1, :]
 
-        tic = time.perf_counter()
         if repetition_penalty:
             logits = apply_repetition_penalty(
                 logits, repetition_context, repetition_penalty
@@ -169,7 +164,6 @@ def generate_step(
             repetition_context.append(y.item())
         else:
             y, prob = sample(logits)
-        print(f"other ops took: {time.perf_counter() - tic} seconds")
 
         if repetition_context_size:
             if len(repetition_context) > repetition_context_size:
