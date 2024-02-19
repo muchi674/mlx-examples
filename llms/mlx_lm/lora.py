@@ -7,7 +7,6 @@ import mlx.optimizers as optim
 import numpy as np
 from mlx.utils import tree_flatten
 
-from .tuner.lora import LoRALinear
 from .tuner.trainer import TrainingArgs, evaluate, train
 from .tuner.utils import linear_to_lora_layers
 from .utils import generate, load
@@ -112,7 +111,7 @@ def build_parser():
         help="Number of test set batches, -1 uses the entire test set.",
     )
     parser.add_argument(
-        "--max_seq_length",
+        "--max-seq-length",
         type=int,
         default=2048,
         help="Maximum sequence length.",
