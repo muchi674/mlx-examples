@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import Dict, Optional, Tuple, Union
+import time
 
 import mlx.core as mx
 import mlx.nn as nn
@@ -143,11 +144,15 @@ class TransformerBlock(nn.Module):
         mask: Optional[mx.array] = None,
         cache: Optional[Tuple[mx.array, mx.array]] = None,
     ) -> mx.array:
+        attn_start = time.perf_counter()
         r, cache = self.self_attn(self.input_layernorm(x), mask, cache)
+        mx.eval(r)
+        mx.eval(cache)
+        attn_end = time.perf_counter()
         h = x + r
         r = self.mlp(self.post_attention_layernorm(h))
         out = h + r
-        return out, cache
+        return out, cache, attn_end - attn_start
 
 
 class LlamaModel(nn.Module):

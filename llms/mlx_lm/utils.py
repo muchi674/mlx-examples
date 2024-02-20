@@ -227,20 +227,21 @@ def generate(
             tic = time.perf_counter()
         tokens.append(token.item())
 
-        if verbose:
-            s = tokenizer.decode(tokens)
-            if formatter:
-                formatter(s[skip:], prob.item())
-                skip = len(s)
-            elif REPLACEMENT_CHAR not in s:
-                print(s[skip:], end="", flush=True)
-                skip = len(s)
+        # if verbose:
+        #     s = tokenizer.decode(tokens)
+        #     if formatter:
+        #         formatter(s[skip:], prob.item())
+        #         skip = len(s)
+        #     elif REPLACEMENT_CHAR not in s:
+        #         print(s[skip:], end="", flush=True)
+        #         skip = len(s)
 
     token_count = len(tokens)
     token_string = tokenizer.decode(tokens).replace(REPLACEMENT_CHAR, "")
 
     if verbose:
-        print(token_string[skip:], flush=True)
+        # print(token_string[skip:], flush=True)
+        print(token_string, flush=True)
         gen_time = time.perf_counter() - tic
         print("=" * 10)
         if token_count == 0:
@@ -248,6 +249,7 @@ def generate(
             return
         prompt_tps = prompt_tokens.size / prompt_time
         gen_tps = (token_count - 1) / gen_time
+        print(f"num generated tokens: {token_count - 1} prompt time: {gen_time}")
         print(f"Prompt: {prompt_tps:.3f} tokens-per-sec")
         print(f"Generation: {gen_tps:.3f} tokens-per-sec")
 
