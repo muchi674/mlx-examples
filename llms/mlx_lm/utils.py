@@ -249,7 +249,8 @@ def generate(
             return
         prompt_tps = prompt_tokens.size / prompt_time
         gen_tps = (token_count - 1) / gen_time
-        print(f"num generated tokens: {token_count - 1} prompt time: {gen_time}")
+        print(f"num generated tokens: {token_count - 1}, prompt time: {gen_time}")
+        print(f"latency per generated token: {gen_time / (token_count - 1)}")
         print(f"Prompt: {prompt_tps:.3f} tokens-per-sec")
         print(f"Generation: {gen_tps:.3f} tokens-per-sec")
 

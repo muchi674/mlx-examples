@@ -183,8 +183,11 @@ class LlamaModel(nn.Module):
         if cache is None:
             cache = [None] * len(self.layers)
 
+        sig_latencies = 0
         for e, layer in enumerate(self.layers):
-            h, cache[e] = layer(h, mask, cache[e])
+            h, cache[e], latency = layer(h, mask, cache[e])
+            sig_latencies += latency
+        print(f"foward pass latency: {sig_latencies} seconds")
 
         return self.norm(h), cache
 
